@@ -21,14 +21,28 @@ public class TaskControllerRest {
         return ResponseEntity.ok(taskService.findTasks());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Task> findById(@PathVariable Long id){
+        return ResponseEntity.ok(taskService.findById(id));
+    }
+
     @PostMapping
     public ResponseEntity<Task> create(@RequestBody Task task){
         taskService.addTask(task);
         return ResponseEntity.ok(task);
     }
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Task> delete(@PathVariable Long id){
         taskService.deleteTask(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+    @PutMapping()
+    public void update(@RequestBody Task task){
+        taskService.update(task);
+    }
+    @PutMapping("/{id}/complete")
+    public void completeTask(@PathVariable Long id){
+        taskService.complete(id);
+    }
+
 }

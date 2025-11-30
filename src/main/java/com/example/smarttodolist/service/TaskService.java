@@ -1,5 +1,7 @@
 package com.example.smarttodolist.service;
 
+import com.example.smarttodolist.dao.InMemoryTaskDao;
+import com.example.smarttodolist.dao.InMemoryTaskDaoImpl;
 import com.example.smarttodolist.model.Task;
 import org.springframework.stereotype.Service;
 
@@ -9,16 +11,26 @@ import java.util.List;
 @Service
 public class TaskService {
 
-    private final List<Task> taskList = new ArrayList<>();
+    private final InMemoryTaskDaoImpl inMemoryTaskDao = new InMemoryTaskDao();
 
     public void addTask(Task task) {
-        taskList.add(task);
+        inMemoryTaskDao.save(task);
     }
 
     public void deleteTask(Long id) {
-        taskList.removeIf(task -> task.getId().equals(id));
+        inMemoryTaskDao.delete(id);
     }
     public List<Task> findTasks(){
-        return taskList;
+      return inMemoryTaskDao.find();
+    }
+
+    public void update(Task task){
+        inMemoryTaskDao.update(task);
+    }
+    public void complete(Long id){
+        inMemoryTaskDao.complete(id);
+    }
+    public Task findById(Long id){
+        return inMemoryTaskDao.findById(id);
     }
 }
